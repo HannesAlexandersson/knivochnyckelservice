@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Bebas_Neue } from "next/font/google";
 import "./globals.css";
+import { MenuContextProvider } from "@/context/menuContextProvider";
+import { AppContextProvider } from "@/context/appContextProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -19,13 +21,26 @@ export const metadata: Metadata = {
   description: "Ge dina knivar ett nytt liv!",
 };
 
+
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
+
+  const navbarData = {
+    logo:
+      '',
+    logoDark:
+      '',
+  }
   return (
     <html
       lang="en"
       className={`${poppins.variable} ${bebas.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <AppContextProvider>
+        <MenuContextProvider navbarData={navbarData}>
+          <body className="min-h-full flex flex-col">{children}</body>
+        </MenuContextProvider>
+      </AppContextProvider>
     </html>
   );
 }
